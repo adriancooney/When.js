@@ -126,7 +126,7 @@ var WhenEvent = function(event) {
 		//Check if event and return which event
 		//Messy use of arrays here
 		var _check = this._isEvent(word);
-		if(ignore.indexOf(word) !== -1) return [5] //DENIED
+		if(ignore.indexOf(word) !== -1) return [6] //DENIED
 		else if(this._isTag(word)) return [1]; //Tag
 		else if(this._isSelector(word)) return [2]; //Selector
 		else if(_check[0]) return [3, _check[1]]; //Event
