@@ -4,39 +4,35 @@
 	<script src="when.js" type="text/javascript"></script>
 	<script type="text/javascript">
 	
-	//when(".button clicked").do(function() {alert() });
-
 	//Sample usage
 	when("document loads").do(function() {
-		alert();
+		alert("Usage: \"document loads\"");
+
+		when(".button clicked").do(function() {
+			alert("Usage: \".button clicked\"");
+		});
+
+		when("div h1 is mouseovered").do(function() {
+			alert("Usage: \"div h1 is mouseovered\"");
+		});
+
+		when("section #anotherbutton clicked").do(function() {
+			alert("Usage: \"section #anotherbutton clicked\"");
+		});
 	});
 
-	//when(".element is dblclicked");
-	//when(".element blurred");
-
-	//when("body clicked").once(function() {
-
-	//});
-
-	//when(document.getElementById("foo"), "loads").do(function(event) {
-
-	//});
-
-	//when("body loaded, .element clicked").do(function() { //Two callbacks for separate events 
-
-	//},
-
-	//function() {
-
-	//});
-
-	//when("body loaded, .element clicked").do(function() { //One callback for two events
-
-	//});
 	</script>
 </head>
 <body>
-<button class="button">CLICK ME GOD DAMMIT</button
+<button class="button">CLICK ME GOD DAMMIT</button>
+
+<div>
+	<h1>Try mouse'ing over me</h1>
+</div>
+
+<section>
+	<button id="anotherbutton">Another Button</button>
+</section>
 </body>
 
 </html>

@@ -62,6 +62,8 @@ var WhenEvent = function(event) {
 			    _event, 
 			//Split up by words
 			words = event.split(" ");
+
+			console.log(words);
 			//Loop through each word
 			words.forEach(function(word) {
 				word = word.replace(/\s*/, "");
@@ -96,6 +98,11 @@ var WhenEvent = function(event) {
 					  //Custom event
 					  _event = word;
 					break;
+					
+					case 6:
+					  //Ignore it;
+					  return;
+					break;
 
 					default:
 					throw new TypeError("Error Parsing the event string. Are you sure it's correct?");
@@ -115,12 +122,12 @@ var WhenEvent = function(event) {
 	};
 
 	this._interpretWord = function(word) {
-	
+		var ignore = ["is"];
 		//Check if event and return which event
 		//Messy use of arrays here
 		var _check = this._isEvent(word);
-
-		if(this._isTag(word)) return [1]; //Tag
+		if(ignore.indexOf(word) !== -1) return [5] //DENIED
+		else if(this._isTag(word)) return [1]; //Tag
 		else if(this._isSelector(word)) return [2]; //Selector
 		else if(_check[0]) return [3, _check[1]]; //Event
 		else if(this._isSpecial(word)) return [4]; //Special keyword
@@ -129,9 +136,13 @@ var WhenEvent = function(event) {
 		
 
 	this._bindDOMEvent = function(selector, event, callback) {
-		Log("Bind DOM Event..");
-		Array.prototype.forEach.call(document.querySelectorAll(selector), function(el) {
-			
+		var nodes = document.querySelectorAll(selector);
+
+		if(nodes.length < 1) throw new TypeError("Can't find any nodes with the selector: " + selector);
+
+		Array.prototype.forEach.call(nodes, function(el) {
+			console.log(el);
+			console.log("AM I EVEN BEING CALLED LIKE?");			
 			el.addEventListener(event, callback, false);
 		});
 
@@ -144,7 +155,7 @@ var WhenEvent = function(event) {
 	};
 
 	this._isTag = function(str) {
-		var tags = ["a", "abbr", "acronym", "address", "applet", "area", "article", "aside", "audio", "b", "base", "basefont", "bdi", "bdo", "big", "blockquote", "body", "br", "button", "canvas", "caption", "center", "cite", "code", "col", "colgroup", "command", "datalist", "dd", "del", "details", "dfn", "dir", "div", "dl", "dt", "em", "embed", "fieldset", "figcaption", "figure", "font", "footer", "form", "frame", "frameset", "h1 to <h6>", "head", "header", "hgroup", "hr", "html", "i", "iframe", "img", "input", "ins", "keygen", "kbd", "label", "legend", "li", "link", "map", "mark", "menu", "meta", "meter", "nav", "noframes", "noscript", "object", "ol", "optgroup", "option", "output", "p", "param", "pre", "progress", "q", "rp", "rt", "ruby", "s", "samp", "script", "section", "select", "small", "source", "span", "strike", "strong", "style", "sub", "summary", "sup", "table", "tbody", "td", "textarea", "tfoot", "th", "thead", "time", "title", "tr", "track", "tt", "u", "ul", "var", "video", "wbr"];
+		var tags = ["a", "abbr", "acronym", "address", "applet", "area", "article", "aside", "audio", "b", "base", "basefont", "bdi", "bdo", "big", "blockquote", "body", "br", "button", "canvas", "caption", "center", "cite", "code", "col", "colgroup", "command", "datalist", "dd", "del", "details", "dfn", "dir", "div", "dl", "dt", "em", "embed", "fieldset", "figcaption", "figure", "font", "footer", "form", "frame", "frameset", "h1", "h2", "h3", "h4", "h5", "h6", "head", "header", "hgroup", "hr", "html", "i", "iframe", "img", "input", "ins", "keygen", "kbd", "label", "legend", "li", "link", "map", "mark", "menu", "meta", "meter", "nav", "noframes", "noscript", "object", "ol", "optgroup", "option", "output", "p", "param", "pre", "progress", "q", "rp", "rt", "ruby", "s", "samp", "script", "section", "select", "small", "source", "span", "strike", "strong", "style", "sub", "summary", "sup", "table", "tbody", "td", "textarea", "tfoot", "th", "thead", "time", "title", "tr", "track", "tt", "u", "ul", "var", "video", "wbr"];
 		return (tags.indexOf(str) !== -1) ? true : false;
 	};
 
